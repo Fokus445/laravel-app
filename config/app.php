@@ -3,7 +3,21 @@
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
+
+
 return [
+    'users' => [
+        2 => [
+            'first_name' => 'Petras',
+            'last_name' => 'Petraitis',
+            'birth_date' => '2013-10-12',
+        ],
+        35 => [
+            'first_name' => 'Jonas',
+            'last_name' => 'Jonaitis',
+            'birth_date' => '2005-04-15',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
