@@ -11,4 +11,5 @@
 
         <button type="submit">Sukurti konferenciją</button>
     </form>
+    <a href="{{ route('conferences.index') }}">Atgal</a></li>
 @endsection

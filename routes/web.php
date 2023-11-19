@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\ConferenceController;
 
-$users = Config::get('app.users');
 
 /*
 |--------------------------------------------------------------------------
@@ -18,67 +18,14 @@ $users = Config::get('app.users');
 |
 */
 
-
-
-// Sukurkime grupę maršrutų su bendru kelio segmentu
-Route::group(['prefix' => 'user/'], function () use ($users) {
-    // Maršrutas /user/{id}
-    
-    Route::get('{id}', function ($id) use ($users) {
-        if (isset($users[$id])) {
-            $user = $users[$id];
-            $birthDate = Carbon::parse($user['birth_date']);
-            $age = $birthDate->age;
-
-            if ($age > 13) {
-                return redirect('/');
-            } else {
-                abort(403, 'You are not allowed to access this page.');
-            }
-        } else {
-            abort(404, 'User not found.');
-        }
-    });
-
-    Route::get('{id}/cart', function ($id) use ($users) {
-        // Prekių duomenys
-        $products = [
-            [
-                'product_id' => '0001',
-                'keyword' => 'leather_jacket',
-                'color' => 'black',
-            ],
-            [
-                'product_id' => '0053',
-                'keyword' => 'jeans',
-                'color' => 'blue',
-            ],
-            [
-                'product_id' => '0068',
-                'keyword' => 'hat',
-                'color' => 'purple',
-            ],
-        ];
-        $userData = [$users[$id],];
-        // Pridėkite prekių duomenis prie naudotojo duomenų
-        $userData[$id]['products'] = $products;
-        // Paverčiame masyvą į JSON tekstą
-        $userDataJson = json_encode($userData);
-        // Įrašykite atnaujintus naudotojo duomenis į slapukus
-        return response()
-            ->json(['message' => 'Prekės sėkmingai pridėtos į krepšelį'])
-            ->cookie('user_data', $userDataJson);
-    });
-});
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::redirect('/', '/conferences');
+Route::get('/conferences', [ConferenceController::class, 'index'])-> name('conferences.index');
+Route::get('/conferences/create', [ConferenceController::class, 'create'])->name('conferences.create');
+Route::post('/conferences/store', [ConferenceController::class, 'store'])->name('conferences.store');
+Route::get('/conferences/{id}/edit', [ConferenceController::class, 'edit'])->name('conferences.edit');
+Route::put('/conferences/{id}/update', [ConferenceController::class, 'update'])->name('conferences.update');
 
 Route::get('/login', 'AuthController@showLoginForm')->name('login');
-
-
 
 
 
