@@ -9,7 +9,7 @@ class ConferenceController extends Controller
 {
     public function index()
     {
-        $conferences = Conference::all();
+        $conferences = Conference::orderBy('date')->orderBy('time')->get();
 
         return view('conferences.index', compact('conferences'));
     }

@@ -1,1 +1,8 @@
-@import "flatpickr"
+@import "flatpickr";
+
+@import 'conferences';
+
+.container {
+    margin: 0 auto;
+    width: 1200px;
+}
