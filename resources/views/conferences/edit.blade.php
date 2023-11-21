@@ -2,29 +2,35 @@
 
 @section('content')
     <div class="container">
-        <h2>Edit Conference</h2>
+        <h2>{{ __('app.edit_conference') }}</h2>
 
         <form action="{{ route('conferences.update', ['id' => $conference->id]) }}" method="post">
             @csrf
             @method('put')
+            @include('conferences._form')
 
-            <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" name="title" id="title" value="{{ $conference->title }}" class="form-control">
-            </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-            <div class="form-group">
-                <label for="date">Date:</label>
-                <input type="date" name="date" id="date" value="{{ $conference->date }}" class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label for="time">Time:</label>
-                <input type="time" name="time" id="time" value="{{ $conference->time }}" class="form-control">
-            </div>
-
-            <button type="submit" class="btn btn-primary">Update Conference</button>
+            <button type="submit" class="btn btn-primary">{{ __('app.update_conference') }}</button>
         </form>
-        <a href="{{ route('conferences.index') }}"><button class="return-home-btn">Atgal</button></a>
+        <a href="{{ route('conferences.index') }}"><button class="btn btn-secondary mt-2">{{ __('app.back') }}</button></a>
+        <!-- Delete Button Form -->
+        <form action="{{ route('conferences.destroy', ['id' => $conference->id]) }}" method="post" class="mt-3">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">{{ __('app.delete') }}</button>
+        </form>
+
+       
+
+
     </div>
 @endsection

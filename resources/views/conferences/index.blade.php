@@ -1,23 +1,36 @@
-<!-- resources/views/conferences/index.blade.php -->
-
 @extends('layouts.app')
 
-@section('title', 'Konferencijos')
+@section('title', __('app.title'))
 
 @section('content')
-    <h2>Konferencijų sąrašas</h2>
+    <h2>{{ __('app.welcome') }}</h2>
+
+    {{-- Display clock using moment.js --}}
+    <p id="current-time" class="clock"></p>
+    
 
     <ul class="conferences-list">
-        @foreach($conferences as $conference)
-            <li class="conference-item">
-                <span class="conference-title">{{ $conference->title }}</span>
-                <p>Date: {{ $conference->date }}</p>
-                <p>Time: {{ $conference->time }}</p>
-                <a href="{{ route('conferences.edit', ['id' => $conference->id]) }}" class="conference-edit-link">Edit</a>
-            </li>
-        @endforeach
+    @foreach($conferences as $conference)
+    <li class="conference-item">
+        <span class="conference-title">{{ $conference->title }}</span>
+        <p>{{ __('app.date') }}: {{ $conference->date }}</p>
+        <p>{{ __('app.time') }}: {{ $conference->time }}</p>
+        
+        @if($isAdmin)
+            <a href="{{ route('conferences.edit', ['id' => $conference->id]) }}" 
+                class="btn btn-secondary">{{ __('app.edit') }}</a>
+        @endif
+    </li>
+@endforeach
+
     </ul>
 
-    <a href="{{ route('conferences.create') }}" class="create-conference-link">Create New Conference</a>
+    @if($isAdmin)
+        <a href="{{ route('conferences.create') }}" class="btn btn-success">{{ __('app.create_conference') }}</a>
+    @endif
 
 @endsection
+
+
+
+
